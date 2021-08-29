@@ -1,6 +1,9 @@
 class PeopleController < ApplicationController
   def new
     @person = Person.new
+    #need to add two empty addresses to fill out 
+    @person.addresses.build(address_type: 'work')
+    @person.addresses.build(address_type: 'home')
   end
 
   def create    
@@ -14,7 +17,15 @@ class PeopleController < ApplicationController
 
   private
 
+  #we added new params keys, which means we need to modify the person params to accept them
   def person_params
-    params.require(:person).permit(:name)
+    params.require(:person).permit(:name, addresses_attributes: [
+      :street_address_1,
+      :street_address_2.
+      :city,
+      :state,
+      :zipcode,
+      :address_type]
+    )
   end
 end
